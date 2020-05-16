@@ -1,6 +1,7 @@
 package Simulation;
 
 
+import java.util.Random;
 
 /**
  *	Machine in a factory
@@ -171,6 +172,21 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		double u = Math.random();
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
+		return res;
+	}
+
+	public static double drawRandomNormal(double mean, double sd,double minCallTime)
+	{
+		// draw a [0,1] uniform distributed number
+		Random r = new Random();
+		// convert it into a normally distributed random variate
+		double u = r.nextGaussian();
+		double res = u * sd + mean;
+		// truncation
+		if(res < minCallTime)
+		{
+			res = minCallTime;
+		}
 		return res;
 	}
 }

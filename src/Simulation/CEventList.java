@@ -60,7 +60,7 @@ public class CEventList implements CProcess
 			events.add(evnt);
 		}
 	}
-	
+
 	/**
 	*	Method for starting the eventlist.
 	*	It will run until there are no longer events in the list
@@ -87,7 +87,7 @@ public class CEventList implements CProcess
 	public void start(double mx)
 	{
 		add(this,-1,mx);
-		// stop criterion
+		// stop criterion##
 		while((events.size()>0)&&(!stopFlag))
 		{
 			// Make the simulation time equal to the execution time of the first event in the list that has to be processed
