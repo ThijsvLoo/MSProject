@@ -7,10 +7,10 @@ package Simulation;
  *	@author Joel Karel
  *	@version %I%, %G%
  */
-public class Machine implements CProcess,ProductAcceptor
+public class ConsumerCSA implements CProcess,ProductAcceptor
 {
 	/** Product that is being handled  */
-	private Product product;
+	private Consumer consumer;
 	/** Eventlist that will manage events */
 	private final CEventList eventlist;
 	/** Queue from which the machine has to take products */
@@ -37,7 +37,7 @@ public class Machine implements CProcess,ProductAcceptor
 	*	@param e	Eventlist that will manage events
 	*	@param n	The name of the machine
 	*/
-	public Machine(Queue q, ProductAcceptor s, CEventList e, String n)
+	public ConsumerCSA(Queue q, ProductAcceptor s, CEventList e, String n)
 	{
 		status='i';
 		queue=q;
@@ -57,7 +57,7 @@ public class Machine implements CProcess,ProductAcceptor
 	*	@param n	The name of the machine
 	*        @param m	Mean processing time
 	*/
-	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, double m)
+	public ConsumerCSA(Queue q, ProductAcceptor s, CEventList e, String n, double m)
 	{
 		status='i';
 		queue=q;
@@ -77,7 +77,7 @@ public class Machine implements CProcess,ProductAcceptor
 	*	@param n	The name of the machine
 	*        @param st	service times
 	*/
-	public Machine(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
+	public ConsumerCSA(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
 	{
 		status='i';
 		queue=q;
@@ -98,11 +98,11 @@ public class Machine implements CProcess,ProductAcceptor
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Product finished at time = " + tme);
+		System.out.println("Call finished at time = " + tme);
 		// Remove product from system
-		product.stamp(tme,"Production complete",name);
-		sink.giveProduct(product);
-		product=null;
+		consumer.stamp(tme,"Production complete",name);
+		sink.giveProduct(consumer);
+		consumer =null;
 		// set machine status to idle
 		status='i';
 		// Ask the queue for products
@@ -115,15 +115,15 @@ public class Machine implements CProcess,ProductAcceptor
 	*	@return	true if the product is accepted and started, false in all other cases
 	*/
         @Override
-	public boolean giveProduct(Product p)
+	public boolean giveProduct(Consumer p)
 	{
 		// Only accept something if the machine is idle
 		if(status=='i')
 		{
 			// accept the product
-			product=p;
+			consumer =p;
 			// mark starting time
-			product.stamp(eventlist.getTime(),"Production started",name);
+			consumer.stamp(eventlist.getTime(),"Production started",name);
 			// start production
 			startProduction();
 			// Flag that the product has arrived
@@ -135,7 +135,7 @@ public class Machine implements CProcess,ProductAcceptor
 	
 	/**
 	*	Starting routine for the production
-	*	Start the handling of the current product with an exponentionally distributed processingtime with average 30
+	*	Start the handling of the current product with an exponentially distributed processing time with average 30
 	*	This time is placed in the eventlist
 	*/
 	private void startProduction()

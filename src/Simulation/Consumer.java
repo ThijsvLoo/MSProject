@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *	@author Joel Karel
  *	@version %I%, %G%
  */
-class Product
+class Consumer
 {
 	/** Stamps for the products */
 	private ArrayList<Double> times;
@@ -14,11 +14,11 @@ class Product
 	private ArrayList<String> stations;
 	
 	/** 
-	*	Constructor for the product
+	*	Constructor for the Consumer
 	*	Mark the time at which it is created
 	*	@param create The current time
 	*/
-	public Product()
+	public Consumer()
 	{
 		times = new ArrayList<>();
 		events = new ArrayList<>();

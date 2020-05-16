@@ -11,7 +11,7 @@ public interface ProductAcceptor
 	/**
 	*	Method to have this object process an event
 	*	@param p	The product that is accepted
-        *       @return true if accepted
+	*   @return true if accepted
 	*/
-	public boolean giveProduct(Product p);
+	public boolean giveProduct(Consumer p);
 }
