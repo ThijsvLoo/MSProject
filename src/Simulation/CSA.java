@@ -22,12 +22,16 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	protected char status;
 	/** Machine name */
 	protected final String name;
-	/** Mean processing time */
-	protected double meanProcTime;
-	/** Processing times (in case pre-specified) */
+	/** Mean call time */
+	protected double meanCallTime;
+	/** Standard deviation of call time */
+	protected double sdCallTime;
+	/** minimum duration of call time */
+	protected double minCallDuration;
+	/** call times (in case pre-specified) */
 	protected double[] processingTimes;
-	/** Processing time iterator */
-	protected int procCnt;
+	/** call time iterator */
+	protected int callCnt;
 
 	/**
 	*	Constructor
@@ -44,51 +48,51 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		sink=s;
 		eventlist=e;
 		name=n;
-		meanProcTime=30;
+		//meanProcTime=30;
 		queue.askProduct(this);
 	}
 
-	/**
-	*	Constructor
-	*        Service times are exponentially distributed with specified mean
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*        @param m	Mean processing time
-	*/
-	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double m)
-	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=m;
-		queue.askProduct(this);
-	}
-
-	/**
-	*	Constructor
-	*        Service times are pre-specified
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*        @param st	service times
-	*/
-	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
-	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=-1;
-		processingTimes=st;
-		procCnt=0;
-		queue.askProduct(this);
-	}
+//	/**
+//	*	Constructor
+//	*        Service times are exponentially distributed with specified mean
+//	*	@param q	Queue from which the machine has to take products
+//	*	@param s	Where to send the completed products
+//	*	@param e	Eventlist that will manage events
+//	*	@param n	The name of the machine
+//	*        @param m	Mean call time
+//	*/
+//	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double m)
+//	{
+//		status='i';
+//		queue=q;
+//		sink=s;
+//		eventlist=e;
+//		name=n;
+//		meanProcTime=m;
+//		queue.askProduct(this);
+//	}
+//
+//	/**
+//	*	Constructor
+//	*        Service times are pre-specified
+//	*	@param q	Queue from which the machine has to take products
+//	*	@param s	Where to send the completed products
+//	*	@param e	Eventlist that will manage events
+//	*	@param n	The name of the machine
+//	*        @param st	service times
+//	*/
+//	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
+//	{
+//		status='i';
+//		queue=q;
+//		sink=s;
+//		eventlist=e;
+//		name=n;
+//		meanProcTime=-1;
+//		processingTimes=st;
+//		procCnt=0;
+//		queue.askProduct(this);
+//	}
 
 	/**
 	*	Method to have this object execute an event
@@ -135,15 +139,15 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	
 	/**
 	*	Starting routine for the production
-	*	Start the handling of the current product with an exponentially distributed processing time with average 30
+	*	Start the handling of the current product with an exponentially distributed call time with average 30
 	*	This time is placed in the eventlist
 	*/
 	protected void startProduction()
 	{
 		// generate duration
-		if(meanProcTime>0)
+		if(meanCallTime >0)
 		{
-			double duration = drawRandomExponential(meanProcTime);
+			double duration = drawRandomNormal(meanCallTime, sdCallTime, minCallDuration);
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
 			eventlist.add(this,0,tme+duration); //target,type,time
@@ -152,12 +156,12 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		}
 		else
 		{
-			if(processingTimes.length>procCnt)
+			if(processingTimes.length> callCnt)
 			{
-				eventlist.add(this,0,eventlist.getTime()+processingTimes[procCnt]); //target,type,time
+				eventlist.add(this,0,eventlist.getTime()+processingTimes[callCnt]); //target,type,time
 				// set status to busy
 				status='b';
-				procCnt++;
+				callCnt++;
 			}
 			else
 			{

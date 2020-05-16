@@ -20,12 +20,16 @@ public class CorporateCSA extends CSA implements CProcess,ProductAcceptor
 	public CorporateCSA(Queue q, ProductAcceptor s, CEventList e, String n)
 	{
 		super(q,s,e,n);
+		meanCallTime = 216;
+		minCallDuration = 45;
+		sdCallTime = 72;
+
 //		status='i';
 //		queue=q;
 //		sink=s;
 //		eventlist=e;
 //		name=n;
-//		meanProcTime=30;
+
 //		queue.askProduct(this);
 	}
 

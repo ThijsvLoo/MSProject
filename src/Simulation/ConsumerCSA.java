@@ -20,6 +20,10 @@ public class ConsumerCSA extends CSA implements CProcess,ProductAcceptor
 	public ConsumerCSA(Queue q, ProductAcceptor s, CEventList e, String n)
 	{
 		super(q,s,e,n);
+		meanCallTime = 72;
+		minCallDuration = 25;
+		sdCallTime = 35;
+
 //		status='i';
 //		queue=q;
 //		sink=s;
