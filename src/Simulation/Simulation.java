@@ -24,7 +24,7 @@ public class Simulation {
         // A queue for the machine
         Queue q = new Queue();
         // A source
-        ConsumerSource s = new ConsumerSource(q,l,"Source 1");
+        ConsumerSource s = new ConsumerSource(q,l,"Consumer source 1");
         // A sink
         Sink si = new Sink("Sink 1");
         // A machine

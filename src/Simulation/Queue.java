@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class Queue implements ProductAcceptor
 {
 	/** List in which the products are kept */
-	private ArrayList<Consumer> row;
+	private ArrayList<Caller> row;
 	/** Requests from machine that will be handling the products */
-	private ArrayList<ConsumerCSA> requests;
+	private ArrayList<CSA> requests;
 	
 	/**
 	*	Initializes the queue and introduces a dummy machine
@@ -28,13 +28,13 @@ public class Queue implements ProductAcceptor
 	*	Asks a queue to give a product to a machine
 	*	True is returned if a product could be delivered; false if the request is queued
 	*/
-	public boolean askProduct(ConsumerCSA consumerCSA)
+	public boolean askProduct(CSA csa)
 	{
 		// This is only possible with a non-empty queue
 		if(row.size()>0)
 		{
 			// If the machine accepts the product
-			if(consumerCSA.giveProduct(row.get(0)))
+			if(csa.giveProduct(row.get(0)))
 			{
 				row.remove(0);// Remove it from the queue
 				return true;
@@ -44,7 +44,7 @@ public class Queue implements ProductAcceptor
 		}
 		else
 		{
-			requests.add(consumerCSA);
+			requests.add(csa);
 			return false; // queue request
 		}
 	}
@@ -53,7 +53,7 @@ public class Queue implements ProductAcceptor
 	*	Offer a product to the queue
 	*	It is investigated whether a machine wants the product, otherwise it is stored
 	*/
-	public boolean giveProduct(Consumer p)
+	public boolean giveProduct(Caller p)
 	{
 		// Check if the machine accepts it
 		if(requests.size()<1)

@@ -83,7 +83,7 @@ public class CorporateSource implements CProcess
 		// show arrival
 		System.out.println("Call arrival at time = " + tme);
 		// give arrived product to queue
-		Consumer p = new Consumer();
+		Caller p = new CorporateCaller();
 		p.stamp(tme,"Creation",name);
 		queue.giveProduct(p);
 		// generate duration

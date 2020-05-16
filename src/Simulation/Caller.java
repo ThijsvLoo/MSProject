@@ -6,19 +6,19 @@ import java.util.ArrayList;
  *	@author Joel Karel
  *	@version %I%, %G%
  */
-class Consumer
+abstract class Caller
 {
 	/** Stamps for the products */
-	private ArrayList<Double> times;
-	private ArrayList<String> events;
-	private ArrayList<String> stations;
+	protected ArrayList<Double> times;
+	protected ArrayList<String> events;
+	protected ArrayList<String> stations;
 	
 	/** 
 	*	Constructor for the Consumer
 	*	Mark the time at which it is created
 	*	@param create The current time
 	*/
-	public Consumer()
+	public Caller()
 	{
 		times = new ArrayList<>();
 		events = new ArrayList<>();
