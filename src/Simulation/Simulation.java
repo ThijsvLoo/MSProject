@@ -10,7 +10,7 @@ public class Simulation {
 
     public CEventList list;
     public Queue queue;
-    public Source source;
+    public ConsumerSource consumerSource;
     public Sink sink;
     public ConsumerCSA mach;
 	
@@ -24,7 +24,7 @@ public class Simulation {
         // A queue for the machine
         Queue q = new Queue();
         // A source
-        Source s = new Source(q,l,"Source 1");
+        ConsumerSource s = new ConsumerSource(q,l,"Source 1");
         // A sink
         Sink si = new Sink("Sink 1");
         // A machine

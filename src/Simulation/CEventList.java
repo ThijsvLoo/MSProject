@@ -40,7 +40,7 @@ public class CEventList implements CProcess
 		boolean success=false;
 		// First create a new event using the parameters
 		CEvent evnt;
-                evnt = new CEvent(target,type,tme);
+		evnt = new CEvent(target,type,tme);
 		// Now it is examened where the event has to be inserted in the list
 		for(int i=0;i<events.size();i++)
 		{
@@ -90,7 +90,7 @@ public class CEventList implements CProcess
 		// stop criterion
 		while((events.size()>0)&&(!stopFlag))
 		{
-			// Make the similation time equal to the execution time of the first event in the list that has to be processed
+			// Make the simulation time equal to the execution time of the first event in the list that has to be processed
 			currentTime=events.get(0).getExecutionTime();
 			// Let the element be processed
 			events.get(0).execute();

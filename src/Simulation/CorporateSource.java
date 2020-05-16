@@ -7,7 +7,7 @@ package Simulation;
  *	@author Joel Karel
  *	@version %I%, %G%
  */
-public class Source implements CProcess
+public class CorporateSource implements CProcess
 {
 	/** Eventlist that will be requested to construct events */
 	private CEventList list;
@@ -29,7 +29,7 @@ public class Source implements CProcess
 	*	@param l	The eventlist that is requested to construct events
 	*	@param n	Name of object
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n)
+	public CorporateSource(ProductAcceptor q, CEventList l, String n)
 	{
 		list = l;
 		queue = q;
@@ -47,7 +47,7 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param m	Mean arrival time
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double m)
+	public CorporateSource(ProductAcceptor q, CEventList l, String n, double m)
 	{
 		list = l;
 		queue = q;
@@ -65,7 +65,7 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param ia	interarrival times
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double[] ia)
+	public CorporateSource(ProductAcceptor q, CEventList l, String n, double[] ia)
 	{
 		list = l;
 		queue = q;
@@ -81,7 +81,7 @@ public class Source implements CProcess
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + tme);
+		System.out.println("Call arrival at time = " + tme);
 		// give arrived product to queue
 		Consumer p = new Consumer();
 		p.stamp(tme,"Creation",name);
