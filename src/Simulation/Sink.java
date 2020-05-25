@@ -35,7 +35,7 @@ public class Sink implements ProductAcceptor
 	}
 	
         @Override
-	public boolean giveProduct(Caller p)
+	public boolean handoverCall(Caller p)
 	{
 		number++;
 		callers.add(p);

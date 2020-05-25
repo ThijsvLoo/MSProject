@@ -13,5 +13,5 @@ public interface ProductAcceptor
 	*	@param p	The product that is accepted
 	*   @return true if accepted
 	*/
-	public boolean giveProduct(Caller p);
+	public boolean handoverCall(Caller p);
 }

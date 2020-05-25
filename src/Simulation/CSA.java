@@ -105,7 +105,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		System.out.println("Call finished at time = " + tme);
 		// Remove product from system
 		caller.stamp(tme,"Production complete",name);
-		sink.giveProduct(caller);
+		sink.handoverCall(caller);
 		caller =null;
 		// set machine status to idle
 		status='i';
@@ -119,7 +119,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	*	@return	true if the product is accepted and started, false in all other cases
 	*/
         @Override
-	public boolean giveProduct(Caller p)
+	public boolean handoverCall(Caller p)
 	{
 		// Only accept something if the machine is idle
 		if(status=='i')
@@ -129,7 +129,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 			// mark starting time
 			caller.stamp(eventlist.getTime(),"Production started",name);
 			// start production
-			startProduction();
+			HandleCall();
 			// Flag that the product has arrived
 			return true;
 		}
@@ -142,7 +142,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	*	Start the handling of the current product with an exponentially distributed call time with average 30
 	*	This time is placed in the eventlist
 	*/
-	protected void startProduction()
+	protected void HandleCall()
 	{
 		// generate duration
 		if(meanCallTime >0)

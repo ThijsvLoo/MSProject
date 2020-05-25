@@ -1,5 +1,7 @@
 package Simulation;
 
+import java.lang.Math;
+
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -54,7 +56,7 @@ public class ConsumerSource implements CProcess
 		name = n;
 		meanArrTime=m;
 		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,0,drawInterArrivalTime(0)); //target,type,time
 	}
 
 	/**
@@ -85,13 +87,12 @@ public class ConsumerSource implements CProcess
 		// give arrived product to queue
 		Caller p = new ConsumerCaller();
 		p.stamp(tme,"Creation",name);
-		queue.giveProduct(p);
+		queue.handoverCall(p);
 		// generate duration
 		if(meanArrTime>0)
 		{
-			double duration = drawRandomExponential(meanArrTime);
 			// Create a new event in the eventlist
-			list.add(this,0,tme+duration); //target,type,time
+			list.add(this,0,tme+drawInterArrivalTime(tme)); //target,type,time
 		}
 		else
 		{
@@ -114,5 +115,19 @@ public class ConsumerSource implements CProcess
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
 		return res;
+	}
+
+	private static double drawInterArrivalTime(double tme){
+		double lambdaStar = 3.8/60;
+		double iat = drawRandomExponential(1 / lambdaStar);
+		double random = Math.random();
+		while(random <= lambda(tme + iat) / lambdaStar){
+			iat += drawRandomExponential(1 / lambdaStar);
+		}
+		return iat;
+	}
+
+	private static double lambda(double t){
+		return 0.03 * Math.sin(t * Math.PI / 43200 - Math.PI/12);
 	}
 }

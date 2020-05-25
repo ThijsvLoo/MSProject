@@ -85,7 +85,7 @@ public class CorporateSource implements CProcess
 		// give arrived product to queue
 		Caller p = new CorporateCaller();
 		p.stamp(tme,"Creation",name);
-		queue.giveProduct(p);
+		queue.handoverCall(p);
 		// generate duration
 		if(meanArrTime>0)
 		{
