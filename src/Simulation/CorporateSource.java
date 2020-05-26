@@ -1,5 +1,7 @@
 package Simulation;
 
+import java.sql.SQLOutput;
+
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -89,7 +91,7 @@ public class CorporateSource implements CProcess
 		// generate duration
 		if(meanArrTime>0)
 		{
-			double duration = drawRandomExponential(meanArrTime);
+			double duration = drawInterArrivalTime(tme);
 			// Create a new event in the eventlist
 			list.add(this,0,tme+duration); //target,type,time
 		}
@@ -114,5 +116,31 @@ public class CorporateSource implements CProcess
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
 		return res;
+	}
+
+	private static double drawInterArrivalTime(double tme){
+		double lambdaStar = 1.0/60;
+		double iat = drawRandomExponential(1.0 / lambdaStar);
+		double random = Math.random();
+		while(random <= getlambda(tme + iat) / lambdaStar){
+
+			iat += drawRandomExponential(1.0 / lambdaStar);
+			random = Math.random();
+		}
+		return iat;
+	}
+
+	private static double getlambda(double t){
+		double lambda = 0;
+
+		if(t % 86400 < 3600 * 10) {
+			lambda = 1.0 / 60;
+		} else if(t % 86400 < 3600 * 14) {
+			lambda = 0.4 / 60;
+		} else if(t % 86400 < 3600 * 24) {
+			lambda = 0.1 / 60;
+		}
+
+		return lambda;
 	}
 }

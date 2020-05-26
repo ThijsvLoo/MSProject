@@ -119,15 +119,16 @@ public class ConsumerSource implements CProcess
 
 	private static double drawInterArrivalTime(double tme){
 		double lambdaStar = 3.8/60;
-		double iat = drawRandomExponential(1 / lambdaStar);
+		double iat = drawRandomExponential(1.0 / lambdaStar);
 		double random = Math.random();
-		while(random <= lambda(tme + iat) / lambdaStar){
-			iat += drawRandomExponential(1 / lambdaStar);
+		while(random <= getlambda(tme + iat) / lambdaStar){
+			iat += drawRandomExponential(1.0 / lambdaStar);
+			random = Math.random();
 		}
 		return iat;
 	}
 
-	private static double lambda(double t){
-		return 0.03 * Math.sin(t * Math.PI / 43200 - Math.PI/12);
+	private static double getlambda(double t){
+		return 0.03 * Math.sin(t * Math.PI / 43200 - Math.PI / 12)  + (1.0/30);
 	}
 }
