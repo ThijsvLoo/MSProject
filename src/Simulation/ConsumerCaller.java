@@ -9,10 +9,6 @@ import java.util.ArrayList;
  */
 class ConsumerCaller extends Caller
 {
-	/** Stamps for the products */
-	private ArrayList<Double> times;
-	private ArrayList<String> events;
-	private ArrayList<String> stations;
 
 	/**
 	*	Constructor for the Consumer

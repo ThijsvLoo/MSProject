@@ -18,6 +18,9 @@ public class CEventList implements CProcess
 	/** Stop flag */
 	private boolean stopFlag;
 
+	/** Time limit */
+	private double maxTime;
+
 	/**
 	*	Standard constructor
 	*	Create an CEventList object

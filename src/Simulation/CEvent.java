@@ -44,4 +44,6 @@ public class CEvent
 	{
 		return executionTime;
 	}
+
+	public CProcess getTarget(){return target;}
 }

@@ -33,23 +33,25 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	/** call time iterator */
 	protected int callCnt;
 
+	/** stopFlag indicates CSA should stop because his shift is  over*/
+
 	/**
 	*	Constructor
 	*        Service times are exponentially distributed with mean 30
 	*	@param q	Queue from which the machine has to take products
 	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
+	*	@param eventList	Eventlist that will manage events
 	*	@param n	The name of the machine
 	*/
-	public CSA(Queue q, ProductAcceptor s, CEventList e, String n)
+	public CSA(Queue q, ProductAcceptor s, CEventList eventList, String n)
 	{
 		status='i';
 		queue=q;
 		sink=s;
-		eventlist=e;
+		eventlist=eventList;
 		name=n;
 		//meanProcTime=30;
-		queue.askProduct(this);
+		queue.askCaller(this);
 	}
 
 //	/**
@@ -102,7 +104,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Call finished at time = " + tme);
+		System.out.println("Call finished at time = " + tme + " by: " + name);
 		// Remove product from system
 		caller.stamp(tme,"Production complete",name);
 		sink.handoverCall(caller);
@@ -110,7 +112,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		// set machine status to idle
 		status='i';
 		// Ask the queue for products
-		queue.askProduct(this);
+		queue.askCaller(this);
 	}
 	
 	/**
@@ -192,5 +194,9 @@ public abstract class CSA implements CProcess,ProductAcceptor
 			res = minCallTime;
 		}
 		return res;
+	}
+
+	public void stop(){
+
 	}
 }

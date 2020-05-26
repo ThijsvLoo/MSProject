@@ -22,15 +22,24 @@ public class Simulation {
     	// Create an eventlist
         CEventList eventList = new CEventList();
         // A queue for the machine
-        Queue q = new Queue();
-        // A source
-        CorporateSource s = new CorporateSource(q,eventList,"Consumer source 1");
+        Queue queue = new Queue();
+        // A Corporate and a consumer source
+        new ConsumerSource(queue,eventList,"Consumer source 1");
+        new CorporateSource(queue,eventList,"Corporate source 1");
         // A sink
-        Sink si = new Sink("Sink 1");
+        Sink sink = new Sink("Sink 1");
         // A machine
-        ConsumerCSA m = new ConsumerCSA(q,si,eventList,"Machine 1");
+        for(int i = 0; i < 2; i++){
+            new ConsumerCSA(queue,sink,eventList,"Cons CSA " + (i + 1));
+        }
+        for(int i = 0; i < 2; i++){
+            new CorporateCSA(queue,sink,eventList,"Corp CSA " + (i + 1));
+        }
+
+
+
         // start the eventlist
-        eventList.start(86400); // 2000 is maximum time
+        eventList.start(86400); // 86400 is one day in seconds and is the maximum time, time 0 is midnight, start of the first shift
     }
     
 }
