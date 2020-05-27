@@ -15,7 +15,7 @@ public class Simulation {
     public ConsumerCSA mach;
 	
 
-        /**
+    /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -28,15 +28,8 @@ public class Simulation {
         new CorporateSource(queue,eventList,"Corporate source 1");
         // A sink
         Sink sink = new Sink("Sink 1");
-        // A machine
-        for(int i = 0; i < 2; i++){
-            new ConsumerCSA(queue,sink,eventList,"Cons CSA " + (i + 1));
-        }
-        for(int i = 0; i < 2; i++){
-            new CorporateCSA(queue,sink,eventList,"Corp CSA " + (i + 1));
-        }
 
-
+        new Shift(eventList, queue, sink);
 
         // start the eventlist
         eventList.start(86400); // 86400 is one day in seconds and is the maximum time, time 0 is midnight, start of the first shift

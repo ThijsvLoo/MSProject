@@ -11,26 +11,27 @@ abstract class Caller
 	/** Stamps for the products */
 	protected ArrayList<Double> times;
 	protected ArrayList<String> events;
-	protected ArrayList<String> stations;
+	protected ArrayList<String> CSAs;
 	
 	/** 
 	*	Constructor for the Consumer
 	*	Mark the time at which it is created
-	*	@param create The current time
+	//*	@param create The current time
 	*/
 	public Caller()
 	{
 		times = new ArrayList<>();
 		events = new ArrayList<>();
-		stations = new ArrayList<>();
+		CSAs = new ArrayList<>();
 	}
 	
 	
-	public void stamp(double time,String event,String station)
+	public void stamp(double time,String event,String CSA)
 	{
 		times.add(time);
 		events.add(event);
-		stations.add(station);
+		CSAs.add(CSA);
+		System.out.println(event + " at time = " + time + " by: " + CSA);
 	}
 	
 	public ArrayList<Double> getTimes()
@@ -43,9 +44,9 @@ abstract class Caller
 		return events;
 	}
 
-	public ArrayList<String> getStations()
+	public ArrayList<String> getCSAs()
 	{
-		return stations;
+		return CSAs;
 	}
 	
 	public double[] getTimesAsArray()
@@ -54,7 +55,7 @@ abstract class Caller
 		double[] tmp = new double[times.size()];
 		for (int i=0; i < times.size(); i++)
 		{
-			tmp[i] = (times.get(i)).doubleValue();
+			tmp[i] = times.get(i);
 		}
 		return tmp;
 	}
@@ -68,8 +69,8 @@ abstract class Caller
 
 	public String[] getStationsAsArray()
 	{
-		String[] tmp = new String[stations.size()];
-		tmp = stations.toArray(tmp);
+		String[] tmp = new String[CSAs.size()];
+		tmp = CSAs.toArray(tmp);
 		return tmp;
 	}
 }

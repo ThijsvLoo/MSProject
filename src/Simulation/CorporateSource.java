@@ -10,17 +10,11 @@ package Simulation;
 public class CorporateSource implements CProcess
 {
 	/** Eventlist that will be requested to construct events */
-	private CEventList list;
+	private final CEventList list;
 	/** Queue that buffers products for the machine */
-	private ProductAcceptor queue;
+	private final ProductAcceptor queue;
 	/** Name of the source */
-	private String name;
-	/** Mean interarrival time */
-	private double meanArrTime;
-	/** Interarrival times (in case pre-specified) */
-	private double[] interarrivalTimes;
-	/** Interarrival time iterator */
-	private int interArrCnt;
+	private final String name;
 
 	/**
 	*	Constructor, creates objects
@@ -34,40 +28,18 @@ public class CorporateSource implements CProcess
 		list = l;
 		queue = q;
 		name = n;
-		meanArrTime=33;
 		// put first event in list for initialization
-		list.add(this,2,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,2,drawInterArrivalTime(0)); //target,type,time
 	}
-
-
-//	/**
-//	*	Constructor, creates objects
-//	*        Interarrival times are prespecified
-//	*	@param q	The receiver of the products
-//	*	@param l	The eventlist that is requested to construct events
-//	*	@param n	Name of object
-//	*	@param ia	interarrival times
-//	*/
-//	public CorporateSource(ProductAcceptor q, CEventList l, String n, double[] ia)
-//	{
-//		list = l;
-//		queue = q;
-//		name = n;
-//		meanArrTime=-1;
-//		interarrivalTimes=ia;
-//		interArrCnt=0;
-//		// put first event in list for initialization
-//		list.add(this,0,interarrivalTimes[0]); //target,type,time
-//	}
 	
         @Override
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Corporate call arrival at time = " + tme);
+		//System.out.println("Corporate call arrival at time = " + tme);
 		// give arrived product to queue
 		Caller caller = new CorporateCaller();
-		caller.stamp(tme,"Creation",name);
+		caller.stamp(tme,"Corporate call created",name);
 		queue.handoverCall(caller);
 
 
@@ -80,8 +52,7 @@ public class CorporateSource implements CProcess
 		// draw a [0,1] uniform distributed number
 		double u = Math.random();
 		// Convert it into a exponentially distributed random variate with given mean
-		double res = -mean*Math.log(u);
-		return res;
+		return -mean*Math.log(u);
 	}
 
 	private static double drawInterArrivalTime(double tme){
@@ -99,14 +70,14 @@ public class CorporateSource implements CProcess
 	private static double getLambda(double t){
 		double lambda = 0;
 
-		if(t % 86400 < 3600 * 8) { // first 8 hours of the day
+		if(t % 86400 < 3600 * 8 || t % 86400 < 3600 * 24) { // first 8 hours of the day
 			lambda = 0.1 / 60;
 		} else if(t % 86400 < 3600 * 18) {
 			lambda = 1.0 / 60;
 		} else if(t % 86400 < 3600 * 22) {
 			lambda = 0.4 / 60;
-		} else if(t % 86400 < 3600 * 24) {
-			lambda = 0.1 / 60;
+//		} else if(t % 86400 < 3600 * 24) {
+//			lambda = 0.1 / 60;
 		}
 
 		return lambda;

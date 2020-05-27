@@ -13,7 +13,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	/** Product that is being handled  */
 	protected Caller caller;
 	/** Eventlist that will manage events */
-	protected final CEventList eventlist;
+	protected final CEventList eventList;
 	/** Queue from which the machine has to take products */
 	protected Queue queue;
 	/** Sink to dump products */
@@ -33,68 +33,29 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	/** call time iterator */
 	protected int callCnt;
 
+	protected boolean stopFlag;
+
 	/** stopFlag indicates CSA should stop because his shift is  over*/
 
 	/**
 	*	Constructor
 	*        Service times are exponentially distributed with mean 30
 	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
+	*	@param sink	Where to send the completed products
 	*	@param eventList	Eventlist that will manage events
 	*	@param n	The name of the machine
 	*/
-	public CSA(Queue q, ProductAcceptor s, CEventList eventList, String n)
+	public CSA(Queue q, ProductAcceptor sink, CEventList eventList, String n)
 	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=eventList;
-		name=n;
+		status = 'i';
+		queue = q;
+		this.sink = sink;
+		this.eventList = eventList;
+		name = n;
 		//meanProcTime=30;
 		queue.askCaller(this);
+		stopFlag = false;
 	}
-
-//	/**
-//	*	Constructor
-//	*        Service times are exponentially distributed with specified mean
-//	*	@param q	Queue from which the machine has to take products
-//	*	@param s	Where to send the completed products
-//	*	@param e	Eventlist that will manage events
-//	*	@param n	The name of the machine
-//	*        @param m	Mean call time
-//	*/
-//	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double m)
-//	{
-//		status='i';
-//		queue=q;
-//		sink=s;
-//		eventlist=e;
-//		name=n;
-//		meanProcTime=m;
-//		queue.askProduct(this);
-//	}
-//
-//	/**
-//	*	Constructor
-//	*        Service times are pre-specified
-//	*	@param q	Queue from which the machine has to take products
-//	*	@param s	Where to send the completed products
-//	*	@param e	Eventlist that will manage events
-//	*	@param n	The name of the machine
-//	*        @param st	service times
-//	*/
-//	public CSA(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
-//	{
-//		status='i';
-//		queue=q;
-//		sink=s;
-//		eventlist=e;
-//		name=n;
-//		meanProcTime=-1;
-//		processingTimes=st;
-//		procCnt=0;
-//		queue.askProduct(this);
-//	}
 
 	/**
 	*	Method to have this object execute an event
@@ -104,15 +65,20 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Call finished at time = " + tme + " by: " + name);
+		//System.out.println("Call finished at time = " + tme + " by: " + name);
 		// Remove product from system
-		caller.stamp(tme,"Production complete",name);
+		caller.stamp(tme,"Call finished",name);
 		sink.handoverCall(caller);
 		caller =null;
-		// set machine status to idle
-		status='i';
-		// Ask the queue for products
-		queue.askCaller(this);
+
+		if(stopFlag){
+			status = 's';
+		} else {
+			// set machine status to idle
+			status='i';
+			// Ask the queue for products
+			queue.askCaller(this);
+		}
 	}
 	
 	/**
@@ -129,7 +95,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 			// accept the product
 			caller =p;
 			// mark starting time
-			caller.stamp(eventlist.getTime(),"Production started",name);
+			caller.stamp(eventList.getTime(),"Call accepted",name);
 			// start production
 			HandleCall();
 			// Flag that the product has arrived
@@ -147,38 +113,38 @@ public abstract class CSA implements CProcess,ProductAcceptor
 	protected void HandleCall()
 	{
 		// generate duration
-		if(meanCallTime >0)
-		{
-			double duration = drawRandomNormal(meanCallTime, sdCallTime, minCallDuration);
-			// Create a new event in the eventlist
-			double tme = eventlist.getTime();
-			eventlist.add(this,0,tme+duration); //target,type,time
-			// set status to busy
-			status='b';
-		}
-		else
-		{
-			if(processingTimes.length> callCnt)
-			{
-				eventlist.add(this,0,eventlist.getTime()+processingTimes[callCnt]); //target,type,time
-				// set status to busy
-				status='b';
-				callCnt++;
-			}
-			else
-			{
-				eventlist.stop();
-			}
-		}
+		double duration = drawRandomNormal(meanCallTime, sdCallTime, minCallDuration);
+		// Create a new event in the eventlist
+		double tme = eventList.getTime();
+		eventList.add(this,0,tme+duration); //target,type,time
+		// set status to busy
+		status='b';
+//		if(meanCallTime >0)
+//		{
+//
+//		}
+//		else
+//		{
+//			if(processingTimes.length > callCnt)
+//			{
+//				eventList.add(this,0, eventList.getTime() + processingTimes[callCnt]); //target,type,time
+//				// set status to busy
+//				status='b';
+//				callCnt++;
+//			}
+//			else
+//			{
+//				eventList.stop();
+//			}
+//		}
 	}
 
 	public static double drawRandomExponential(double mean)
 	{
 		// draw a [0,1] uniform distributed number
 		double u = Math.random();
-		// Convert it into a exponentially distributed random variate with mean 33
-		double res = -mean*Math.log(u);
-		return res;
+		// Convert it into a exponentially distributed random variate with given mean
+		return -mean*Math.log(u);
 	}
 
 	public static double drawRandomNormal(double mean, double sd,double minCallTime)
@@ -196,7 +162,8 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		return res;
 	}
 
-	public void stop(){
-
+	public void stop(){ //make the csa not accept any more calls, but can finish their current call if still ongoing
+		stopFlag = true;
+		status = 's';
 	}
 }

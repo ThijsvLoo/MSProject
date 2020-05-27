@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class Queue implements ProductAcceptor
 {
 	/** Lists in which the callers are kept */
-	private ArrayList<Caller> ConsumerCallers;
-	private ArrayList<Caller> CorporateCallers;
+	private final ArrayList<Caller> ConsumerCallers;
+	private final ArrayList<Caller> CorporateCallers;
 	/** Requests from machine that will be handling the products */
-	private ArrayList<CSA> consumerCSARequests;
-	private ArrayList<CSA> corporateCSARequests;
+	private final ArrayList<CSA> consumerCSARequests;
+	private final ArrayList<CSA> corporateCSARequests;
 
 	/**
 	*	Initializes the queue and introduces a dummy machine
@@ -135,6 +135,11 @@ public class Queue implements ProductAcceptor
 			}
 		}
 		return true;
+	}
+
+	public void clearCSARequests(){
+		consumerCSARequests.clear();
+		corporateCSARequests.clear();
 	}
 
 }

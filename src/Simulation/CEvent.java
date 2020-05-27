@@ -9,11 +9,11 @@ package Simulation;
 public class CEvent
 {
 	/** The object involved with the event */
-	private CProcess target;
+	private final CProcess target;
 	/** The type of the event */
-	private int type;
+	private final int type;
 	/** The time on which the event will be executed */
-	private double executionTime;
+	private final double executionTime;
 
 	/**
 	*	Constructor for objects

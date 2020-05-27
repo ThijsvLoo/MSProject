@@ -9,16 +9,16 @@ import java.util.ArrayList;
 public class Sink implements ProductAcceptor
 {
 	/** All products are kept */
-	private ArrayList<Caller> callers;
+	private final ArrayList<Caller> callers;
 	/** All properties of products are kept */
-	private ArrayList<Integer> numbers;
-	private ArrayList<Double> times;
-	private ArrayList<String> events;
-	private ArrayList<String> stations;
+	private final ArrayList<Integer> numbers;
+	private final ArrayList<Double> times;
+	private final ArrayList<String> events;
+	private final ArrayList<String> stations;
 	/** Counter to number products */
 	private int number;
 	/** Name of the sink */
-	private String name;
+	private final String name;
 	
 	/**
 	*	Constructor, creates objects
@@ -42,7 +42,7 @@ public class Sink implements ProductAcceptor
 		// store stamps
 		ArrayList<Double> t = p.getTimes();
 		ArrayList<String> e = p.getEvents();
-		ArrayList<String> s = p.getStations();
+		ArrayList<String> s = p.getCSAs();
 		for(int i=0;i<t.size();i++)
 		{
 			numbers.add(number);
@@ -59,7 +59,7 @@ public class Sink implements ProductAcceptor
 		int[] tmp = new int[numbers.size()];
 		for (int i=0; i < numbers.size(); i++)
 		{
-			tmp[i] = (numbers.get(i)).intValue();
+			tmp[i] = numbers.get(i);
 		}
 		return tmp;
 	}
@@ -70,7 +70,7 @@ public class Sink implements ProductAcceptor
 		double[] tmp = new double[times.size()];
 		for (int i=0; i < times.size(); i++)
 		{
-			tmp[i] = (times.get(i)).doubleValue();
+			tmp[i] = times.get(i);
 		}
 		return tmp;
 	}

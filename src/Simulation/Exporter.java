@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Exporter {
 
     /** Lists of waiting time for data analysis */
-    private static ArrayList<Double> consumer = new ArrayList<>();
-    private static ArrayList<Double> corporate = new ArrayList<>();
+    private static final ArrayList<Double> consumer = new ArrayList<>();
+    private static final ArrayList<Double> corporate = new ArrayList<>();
 
 
     /**
