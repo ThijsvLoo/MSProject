@@ -67,7 +67,7 @@ public abstract class CSA implements CProcess,ProductAcceptor
 		// show arrival
 		//System.out.println("Call finished at time = " + tme + " by: " + name);
 		// Remove product from system
-		caller.stamp(tme,"Call finished",name);
+		caller.stamp(tme, "Call", "finished",name);
 		sink.handoverCall(caller);
 		caller =null;
 
@@ -95,7 +95,17 @@ public abstract class CSA implements CProcess,ProductAcceptor
 			// accept the product
 			caller =p;
 			// mark starting time
-			caller.stamp(eventList.getTime(),"Call accepted",name);
+			caller.stamp(eventList.getTime(), "Call", "accepted",name);
+
+			//send waiting time data to output for analysis
+			int createdIndex = caller.getEvents().lastIndexOf("created");
+			int acceptedIndex = caller.getEvents().lastIndexOf("accepted");
+			if(caller instanceof ConsumerCaller){
+				Exporter.addConsumer(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
+			} else {
+				Exporter.addCorporate(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
+			}
+
 			// start production
 			HandleCall();
 			// Flag that the product has arrived

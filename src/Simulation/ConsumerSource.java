@@ -42,7 +42,7 @@ public class ConsumerSource implements CProcess
 		//System.out.println("Consumer call arrival at time = " + tme);
 		// give arrived product to queue
 		Caller p = new ConsumerCaller();
-		p.stamp(tme,"Consumer call Created",name);
+		p.stamp(tme, "Consumer call" ,"created",name);
 		queue.handoverCall(p);
 		// generate duration
 

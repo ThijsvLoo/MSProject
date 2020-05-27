@@ -33,9 +33,6 @@ public class Simulation {
 
         // start the eventlist
         eventList.start(86400); // 86400 is one day in seconds and is the maximum time, time 0 is midnight, start of the first shift
-
-        // Export to excel file
-        Exporter.writeData();
     }
     
 }

@@ -35,14 +35,15 @@ public class Sink implements ProductAcceptor
 	}
 	
         @Override
-	public boolean handoverCall(Caller p)
+	public boolean handoverCall(Caller caller)
 	{
 		number++;
-		callers.add(p);
+		callers.add(caller);
 		// store stamps
-		ArrayList<Double> t = p.getTimes();
-		ArrayList<String> e = p.getEvents();
-		ArrayList<String> s = p.getCSAs();
+		ArrayList<Double> t = caller.getTimes();
+		ArrayList<String> e = caller.getEvents();
+		ArrayList<String> s = caller.getCSAs();
+
 		for(int i=0;i<t.size();i++)
 		{
 			numbers.add(number);

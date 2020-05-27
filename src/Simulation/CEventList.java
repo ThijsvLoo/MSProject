@@ -127,6 +127,8 @@ public class CEventList implements CProcess
 	public void execute(int type, double tme)
 	{
 		if(type==-1)
+			// Export to excel file
+			Exporter.writeData();
 			stop();
 	}
 }

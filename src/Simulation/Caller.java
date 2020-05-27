@@ -12,7 +12,7 @@ abstract class Caller
 	protected ArrayList<Double> times;
 	protected ArrayList<String> events;
 	protected ArrayList<String> CSAs;
-	
+
 	/** 
 	*	Constructor for the Consumer
 	*	Mark the time at which it is created
@@ -26,12 +26,12 @@ abstract class Caller
 	}
 	
 	
-	public void stamp(double time,String event,String CSA)
+	public void stamp(double time,String type, String event,String CSA)
 	{
 		times.add(time);
 		events.add(event);
 		CSAs.add(CSA);
-		System.out.println(event + " at time = " + time + " by: " + CSA);
+		System.out.println(type + " " + event + " at time = " + time + " by: " + CSA);
 	}
 	
 	public ArrayList<Double> getTimes()
