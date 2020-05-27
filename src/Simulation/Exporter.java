@@ -13,7 +13,7 @@ public class Exporter {
 
 
     /**
-     *	Method to append to append to list of waitingtimes
+     *	Method to append to append to list of waiting times
      *	@param c	The callers waiting time
      */
     public static void addConsumer(double c) {
