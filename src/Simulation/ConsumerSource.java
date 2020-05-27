@@ -62,9 +62,11 @@ public class ConsumerSource implements CProcess
 		double lambdaStar = 3.8/60;
 		double iat = drawRandomExponential(1.0 / lambdaStar);
 		double random = Math.random();
-		while(random <= getLambda(tme + iat) / lambdaStar){
+		//System.out.println("lamda/l* " + getLambda(tme+iat)/lambdaStar + " iat " + iat + " rand " + random);
+		while(random > getLambda(tme + iat) / lambdaStar){
 			iat += drawRandomExponential(1.0 / lambdaStar);
 			random = Math.random();
+			//System.out.println("lamda/l* " + getLambda(tme+iat)/lambdaStar + " iat " + iat + " rand " + random);
 		}
 		return iat;
 	}

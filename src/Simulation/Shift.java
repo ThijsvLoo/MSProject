@@ -29,26 +29,26 @@ public class Shift implements CProcess {
         double timeOfDay = tme % 86400;
         System.out.println("New shift started at: " + timeOfDay);
         if(timeOfDay < 3600 * 6 || timeOfDay >= 3600 * 22) { // night shift times 10pm - 6am
-            for(int i = 0; i < 5; i++){
+            for(int i = 0; i < 1; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"Nightshift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 5; i++){
+            for(int i = 0; i < 1; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"Nightshift Consumer CSA " + (i + 1)));
             }
 
         } else if(timeOfDay < 3600 * 14) { // day shift 6am - 2pm
-            for(int i = 0; i < 15; i++){
+            for(int i = 0; i < 3; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"Dayshift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 15; i++){
+            for(int i = 0; i < 3; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"Dayshift Consumer CSA " + (i + 1)));
             }
 
         } else if(timeOfDay < 3600 * 22) { // afternoon and evening shift 2pm - 10 pm
-            for(int i = 0; i < 15; i++){
+            for(int i = 0; i < 3; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"EveShift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 20; i++){
+            for(int i = 0; i < 4; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"EveShift Consumer CSA " + (i + 1)));
             }
 

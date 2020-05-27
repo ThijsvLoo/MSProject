@@ -59,7 +59,7 @@ public class CorporateSource implements CProcess
 		double lambdaStar = 1.0/60;
 		double iat = drawRandomExponential(1.0 / lambdaStar);
 		double random = Math.random();
-		while(random <= getLambda(tme + iat) / lambdaStar){
+		while(random > getLambda(tme + iat) / lambdaStar){
 
 			iat += drawRandomExponential(1.0 / lambdaStar);
 			random = Math.random();
@@ -70,14 +70,12 @@ public class CorporateSource implements CProcess
 	private static double getLambda(double t){
 		double lambda = 0;
 
-		if(t % 86400 < 3600 * 8 || t % 86400 < 3600 * 24) { // first 8 hours of the day
+		if(t % 86400 < 3600 * 8 || t % 86400 > 3600 * 22) { // first 8 hours of the day
 			lambda = 0.1 / 60;
 		} else if(t % 86400 < 3600 * 18) {
 			lambda = 1.0 / 60;
 		} else if(t % 86400 < 3600 * 22) {
 			lambda = 0.4 / 60;
-//		} else if(t % 86400 < 3600 * 24) {
-//			lambda = 0.1 / 60;
 		}
 
 		return lambda;
