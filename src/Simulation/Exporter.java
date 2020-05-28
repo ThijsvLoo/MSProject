@@ -26,20 +26,27 @@ public class Exporter {
 
     /* Creates Excel file and adds the waiting times in the excel file */
     public static void writeData() {
-        File output = new File("data.csv");
+        File output = new File("CorporateData.csv");
         try {
             StringBuilder sb = new StringBuilder();
             FileWriter fw = new FileWriter(output, true);
-            sb.append("Consumer:, ");
-            consumer.stream().forEach(c -> sb.append(c + ", "));
-            sb.append("\n");
-            sb.append("Corporate:, ");
             corporate.stream().forEach(c -> sb.append(c + ", "));
             sb.append("\n");
             fw.write(sb.toString());
             fw.close();
-            consumer.clear();
             corporate.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File output2 = new File("ConsumerData.csv");
+        try {
+            StringBuilder sb = new StringBuilder();
+            FileWriter fw = new FileWriter(output2, true);
+            consumer.stream().forEach(c -> sb.append(c + ", "));
+            sb.append("\n");
+            fw.write(sb.toString());
+            fw.close();
+            consumer.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
