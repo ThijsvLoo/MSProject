@@ -30,12 +30,12 @@ public class Exporter {
         try {
             StringBuilder sb = new StringBuilder();
             FileWriter fw = new FileWriter(output, true);
-            sb.append("\n");
             sb.append("Consumer:, ");
             consumer.stream().forEach(c -> sb.append(c + ", "));
             sb.append("\n");
             sb.append("Corporate:, ");
             corporate.stream().forEach(c -> sb.append(c + ", "));
+            sb.append("\n");
             fw.write(sb.toString());
             fw.close();
         } catch (IOException e) {
