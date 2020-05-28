@@ -38,6 +38,8 @@ public class Exporter {
             sb.append("\n");
             fw.write(sb.toString());
             fw.close();
+            consumer.clear();
+            corporate.clear();
         } catch (IOException e) {
             e.printStackTrace();
         }
