@@ -16,10 +16,10 @@ public class Exporter {
      *	Method to append to append to list of waiting times
      *	@param c	The callers waiting time
      */
-    public static void addConsumer(double c) {
+    public static void addConsumerData(double c) {
         consumer.add(c);
     }
-    public static void addCorporate(double c) {
+    public static void addCorporateData(double c) {
         corporate.add(c);
     }
 
@@ -29,12 +29,13 @@ public class Exporter {
         File output = new File("data.csv");
         try {
             StringBuilder sb = new StringBuilder();
-            FileWriter fw = new FileWriter(output);
+            FileWriter fw = new FileWriter(output, true);
+            sb.append("\n");
             sb.append("Consumer:, ");
-            consumer.stream().forEach(c -> sb.append(c + ","));
+            consumer.stream().forEach(c -> sb.append(c + ", "));
             sb.append("\n");
             sb.append("Corporate:, ");
-            corporate.stream().forEach(c -> sb.append(c + ","));
+            corporate.stream().forEach(c -> sb.append(c + ", "));
             fw.write(sb.toString());
             fw.close();
         } catch (IOException e) {

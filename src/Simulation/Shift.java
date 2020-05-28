@@ -32,23 +32,23 @@ public class Shift implements CProcess {
             for(int i = 0; i < 1; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"Nightshift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 1; i++){
+            for(int i = 0; i < 2; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"Nightshift Consumer CSA " + (i + 1)));
             }
 
         } else if(timeOfDay < 3600 * 14) { // day shift 6am - 2pm
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < 5; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"Dayshift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < 7; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"Dayshift Consumer CSA " + (i + 1)));
             }
 
         } else if(timeOfDay < 3600 * 22) { // afternoon and evening shift 2pm - 10 pm
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < 5; i++){
                 currentCSAs.add(new CorporateCSA(queue,sink,eventList,"EveShift Corporate CSA " + (i + 1)));
             }
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 7; i++){
                 currentCSAs.add(new ConsumerCSA(queue,sink,eventList,"EveShift Consumer CSA " + (i + 1)));
             }
 

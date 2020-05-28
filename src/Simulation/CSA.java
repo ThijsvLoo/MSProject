@@ -101,9 +101,9 @@ public abstract class CSA implements CProcess,ProductAcceptor
 			int createdIndex = caller.getEvents().lastIndexOf("created");
 			int acceptedIndex = caller.getEvents().lastIndexOf("accepted");
 			if(caller instanceof ConsumerCaller){
-				Exporter.addConsumer(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
+				Exporter.addConsumerData(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
 			} else {
-				Exporter.addCorporate(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
+				Exporter.addCorporateData(caller.getTimes().get(acceptedIndex) - caller.getTimes().get(createdIndex));
 			}
 
 			// start production
